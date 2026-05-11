@@ -17,5 +17,10 @@ MVC + Service Layer
 - Listagem de pets
 - Controle de adoção
 
-## 👩‍💻 Desenvolvedora
+## 👩‍💻 Desenvolvedores:
+
 Polyana
+Nathalia
+Arthur 
+Arthur
+Amanda
