@@ -17,6 +17,13 @@ MVC + Service Layer
 - Listagem de pets
 - Controle de adoção
 
+## GitFlow
+
+Branches utilizadas:
+- main
+- develop
+- feature/*
+
 ## 👩‍💻 Desenvolvedores:
 
 Polyana
