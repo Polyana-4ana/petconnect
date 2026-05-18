@@ -1,7 +1,7 @@
-package com.petconnect.controller;
+package com.example.petconnect.controller;
 
-import com.petconnect.entity.Adocao;
-import com.petconnect.service.AdocaoService;
+import com.example.petconnect.entity.Adocao;
+import com.example.petconnect.service.AdocaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,7 @@
-package com.petconnect.service;
+package com.example.petconnect.service;
 
-import com.petconnect.entity.*;
-import com.petconnect.repository.*;
+import com.example.petconnect.entity.*;
+import com.example.petconnect.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

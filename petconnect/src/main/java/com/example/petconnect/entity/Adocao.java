@@ -1,4 +1,4 @@
-package com.petconnect.entity;
+package com.example.petconnect.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

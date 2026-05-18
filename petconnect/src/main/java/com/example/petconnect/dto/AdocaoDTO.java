@@ -1,4 +1,4 @@
-package com.petconnect.dto;
+package com.example.petconnect.dto;
 
 public class AdocaoDTO {
 
