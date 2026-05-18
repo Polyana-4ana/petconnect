@@ -1,0 +1,36 @@
+name: CI PetConnect
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+  pull_request:
+    branches:
+      - develop
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Dar permissão ao Maven Wrapper
+        working-directory: ./petconnect
+        run: chmod +x mvnw
+
+      - name: Executar build
+        working-directory: ./petconnect
+        run: ./mvnw clean install
