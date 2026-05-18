@@ -31,3 +31,19 @@ Nathalia
 Arthur 
 Arthur
 Amanda
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<img width="1268" height="526" alt="image" src="https://github.com/user-attachments/assets/424b968c-3f4c-4475-9a11-95266aee03ce" />
