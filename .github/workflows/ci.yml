@@ -27,6 +27,10 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Dar permissão ao Maven Wrapper
+        working-directory: ./petconnect
+        run: chmod +x mvnw
+
       - name: Executar build
         working-directory: ./petconnect
-        run: mvn clean install
+        run: ./mvnw clean install
