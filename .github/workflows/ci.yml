@@ -28,4 +28,5 @@ jobs:
           java-version: '21'
 
       - name: Executar build
+        working-directory: ./petconnect
         run: mvn clean install
