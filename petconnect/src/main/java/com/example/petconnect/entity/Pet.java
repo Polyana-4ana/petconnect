@@ -19,6 +19,7 @@ public class Pet {
 
     @NotBlank
     private String nome;
+    private boolean adotado;
 
     private Integer idade;
 
@@ -26,4 +27,12 @@ public class Pet {
     private String especie;
 
     private String status;
+
+    public boolean isAdotado() {
+        return adotado;
+    }
+
+    public void setAdotado(boolean adotado) {
+        this.adotado = adotado;
+    }
 }
