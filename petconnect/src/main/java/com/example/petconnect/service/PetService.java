@@ -1,6 +1,6 @@
-package com.petconnect.service;
+package com.example.petconnect.service;
 
-import com.petconnect.entity.Pet;
+import com.example.petconnect.entity.Pet;
 
 import java.util.List;
 

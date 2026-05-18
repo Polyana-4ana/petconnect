@@ -1,7 +1,7 @@
-package com.petconnect.controller;
+package com.example.petconnect.controller;
 
-import com.petconnect.entity.Pet;
-import com.petconnect.service.PetService;
+import com.example.petconnect.entity.Pet;
+import com.example.petconnect.service.PetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
