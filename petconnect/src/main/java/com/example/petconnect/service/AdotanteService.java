@@ -1,7 +1,7 @@
-package com.petconnect.service;
+package com.example.petconnect.service;
 
-import com.petconnect.entity.Adotante;
-import com.petconnect.repository.AdotanteRepository;
+import com.example.petconnect.entity.Adotante;
+import com.example.petconnect.repository.AdotanteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,8 +40,7 @@ public class AdotanteService {
     public Adotante buscarPorId(Long id) {
 
         return repository.findById(id)
-                .orElseThrow(() ->
-                        new IllegalArgumentException("Adotante não encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Adotante não encontrado"));
     }
 
     public Adotante atualizar(Long id, Adotante adotanteAtualizado) {

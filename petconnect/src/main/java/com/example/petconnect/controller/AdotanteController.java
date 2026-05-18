@@ -1,7 +1,7 @@
-package com.petconnect.controller;
+package com.example.petconnect.controller;
 
-import com.petconnect.entity.Adotante;
-import com.petconnect.service.AdotanteService;
+import com.example.petconnect.entity.Adotante;
+import com.example.petconnect.service.AdotanteService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,8 +34,7 @@ public class AdotanteController {
     @PutMapping("/{id}")
     public Adotante atualizar(
             @PathVariable Long id,
-            @RequestBody Adotante adotante
-    ) {
+            @RequestBody Adotante adotante) {
         return service.atualizar(id, adotante);
     }
 
