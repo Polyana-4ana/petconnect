@@ -22,3 +22,13 @@ MVC + Service Layer
 1. Criar banco PostgreSQL
 2. Configurar application.properties
 3. Rodar aplicação Spring Boot
+
+## GitFlow
+
+Estratégia utilizada:
+- main
+- develop
+- feature/*
+
+Fluxo:
+feature -> develop -> main
