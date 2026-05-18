@@ -1,19 +1,31 @@
 package com.petconnect.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> tratarErro(IllegalArgumentException ex) {
+    public ResponseEntity<ErrorResponse> tratarErro(
+            IllegalArgumentException ex,
+            HttpServletRequest request
+    ) {
 
-        return Map.of(
-                "erro", ex.getMessage()
+        ErrorResponse erro = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage(),
+                request.getRequestURI()
         );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(erro);
     }
 }
