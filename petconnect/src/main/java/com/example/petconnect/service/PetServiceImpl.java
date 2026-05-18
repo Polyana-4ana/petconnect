@@ -1,7 +1,7 @@
-package com.petconnect.service;
+package com.example.petconnect.service;
 
-import com.petconnect.entity.Pet;
-import com.petconnect.repository.PetRepository;
+import com.example.petconnect.entity.Pet;
+import com.example.petconnect.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
