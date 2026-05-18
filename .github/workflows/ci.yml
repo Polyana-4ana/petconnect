@@ -27,8 +27,5 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Dar permissão ao Maven Wrapper
-        run: chmod +x mvnw
-
       - name: Executar build
-        run: ./mvnw clean install
+        run: mvn clean install
