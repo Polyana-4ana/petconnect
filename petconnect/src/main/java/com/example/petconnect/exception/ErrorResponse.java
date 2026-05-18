@@ -1,4 +1,4 @@
-package com.petconnect.exception;
+package com.example.petconnect.exception;
 
 import java.time.LocalDateTime;
 
@@ -15,8 +15,7 @@ public class ErrorResponse {
             int status,
             String error,
             String message,
-            String path
-    ) {
+            String path) {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;

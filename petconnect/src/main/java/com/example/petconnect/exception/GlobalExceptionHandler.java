@@ -1,4 +1,4 @@
-package com.petconnect.exception;
+package com.example.petconnect.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;

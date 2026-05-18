@@ -1,6 +1,6 @@
-package com.petconnect.repository;
+package com.example.petconnect.repository;
 
-import com.petconnect.entity.Adotante;
+import com.example.petconnect.entity.Adotante;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
