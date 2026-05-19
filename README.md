@@ -39,7 +39,8 @@ Amanda
 
 
 
-
+# Duvida acerca do padrao de commit a seguir? acesse 
+https://github.com/iuricode/padroes-de-commits
 
 
 
