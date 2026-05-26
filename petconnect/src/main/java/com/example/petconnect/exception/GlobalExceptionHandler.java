@@ -1,8 +1,6 @@
 package com.example.petconnect.exception;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -10,22 +8,20 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> tratarErro(
-            IllegalArgumentException ex,
-            HttpServletRequest request
-    ) {
+    @ExceptionHandler(
+            IllegalArgumentException.class)
 
-        ErrorResponse erro = new ErrorResponse(
+    @ResponseStatus(
+            HttpStatus.BAD_REQUEST)
+
+    public ErrorResponse tratarErro(
+            IllegalArgumentException ex){
+
+        return new ErrorResponse(
                 LocalDateTime.now(),
-                HttpStatus.BAD_REQUEST.value(),
-                "Bad Request",
-                ex.getMessage(),
-                request.getRequestURI()
+                400,
+                ex.getMessage()
         );
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(erro);
     }
+
 }
