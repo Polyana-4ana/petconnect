@@ -1,14 +1,19 @@
 package com.example.petconnect.dto;
 
-public class AdocaoDTO {
+import jakarta.validation.constraints.NotNull;
 
+public class AdocaoRequestDTO {
+
+    @NotNull(message = "O id do pet é obrigatório")
     private Long petId;
+
+    @NotNull(message = "O id do adotante é obrigatório")
     private Long adotanteId;
 
-    public AdocaoDTO() {
+    public AdocaoRequestDTO() {
     }
 
-    public AdocaoDTO(Long petId, Long adotanteId) {
+    public AdocaoRequestDTO(Long petId, Long adotanteId) {
         this.petId = petId;
         this.adotanteId = adotanteId;
     }
