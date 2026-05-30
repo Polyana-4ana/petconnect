@@ -1,4 +1,4 @@
-package com.example.petconnect.dto;
+package com.example.petconnect.dto.adocao;
 
 import jakarta.validation.constraints.NotNull;
 

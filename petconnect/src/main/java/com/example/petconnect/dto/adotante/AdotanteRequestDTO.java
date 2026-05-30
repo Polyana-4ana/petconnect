@@ -1,24 +1,27 @@
-package com.example.petconnect.dto;
+package com.example.petconnect.dto.adotante;
 
-public class AdotanteResponseDTO {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-    private Long id;
+public class AdotanteRequestDTO {
+
+    @NotBlank(message = "O nome é obrigatório")
     private String nome;
+
+    @NotBlank(message = "O email é obrigatório")
+    @Email(message = "Email inválido")
     private String email;
+
+    @NotBlank(message = "O telefone é obrigatório")
     private String telefone;
 
-    public AdotanteResponseDTO() {
+    public AdotanteRequestDTO() {
     }
 
-    public AdotanteResponseDTO(Long id, String nome, String email, String telefone) {
-        this.id = id;
+    public AdotanteRequestDTO(String nome, String email, String telefone) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getNome() {
@@ -31,10 +34,6 @@ public class AdotanteResponseDTO {
 
     public String getTelefone() {
         return telefone;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setNome(String nome) {
