@@ -1,4 +1,4 @@
-package com.example.petconnect.dto;
+package com.example.petconnect.dto.adocao;
 
 import com.example.petconnect.entity.StatusAdocao;
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.example.petconnect.dto;
+package com.example.petconnect.dto.pet;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
