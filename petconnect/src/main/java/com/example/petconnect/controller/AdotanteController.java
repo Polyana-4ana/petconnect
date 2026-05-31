@@ -1,7 +1,6 @@
 package com.example.petconnect.controller;
 
 import com.example.petconnect.dto.adotante.*;
-import com.example.petconnect.entity.Adotante;
 import com.example.petconnect.service.AdotanteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

@@ -1,13 +1,10 @@
 package com.example.petconnect.service;
 
-import com.example.petconnect.entity.Pet;
-
+import com.example.petconnect.dto.pet.*;
 import java.util.List;
 
 public interface PetService {
+    PetResponseDTO salvar(PetRequestDTO dto);
 
-    Pet salvar(Pet pet);
-
-    List<Pet> listar();
-
+    List<PetResponseDTO> listar();
 }
