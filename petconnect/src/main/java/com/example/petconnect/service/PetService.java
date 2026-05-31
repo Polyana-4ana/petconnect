@@ -7,4 +7,10 @@ public interface PetService {
     PetResponseDTO salvar(PetRequestDTO dto);
 
     List<PetResponseDTO> listar();
+
+    PetResponseDTO buscarPorId(Long id);
+
+    PetResponseDTO atualizar(Long id, PetRequestDTO dto);
+
+    void deletar(Long id);
 }

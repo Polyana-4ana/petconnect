@@ -34,6 +34,34 @@ public class PetServiceImpl implements PetService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public PetResponseDTO buscarPorId(Long id) {
+        Pet pet = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+
+        return toResponseDTO(pet);
+    }
+
+    @Override
+    public PetResponseDTO atualizar(Long id, PetRequestDTO dto) {
+        Pet pet = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+
+        pet.setNome(dto.getNome());
+        pet.setIdade(dto.getIdade());
+        pet.setEspecie(dto.getEspecie());
+
+        return toResponseDTO(repository.save(pet));
+    }
+
+    @Override
+    public void deletar(Long id) {
+        Pet pet = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
+
+        repository.delete(pet);
+    }
+
     private PetResponseDTO toResponseDTO(Pet pet) {
         return new PetResponseDTO(
                 pet.getId(),

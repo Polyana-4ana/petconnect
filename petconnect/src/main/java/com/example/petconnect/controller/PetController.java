@@ -27,4 +27,23 @@ public class PetController {
     public ResponseEntity<List<PetResponseDTO>> listar() {
         return ResponseEntity.ok(service.listar());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PetResponseDTO> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PetResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody @Valid PetRequestDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
