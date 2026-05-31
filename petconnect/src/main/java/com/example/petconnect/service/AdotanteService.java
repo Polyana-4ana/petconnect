@@ -1,10 +1,12 @@
 package com.example.petconnect.service;
 
+import com.example.petconnect.dto.adotante.*;
 import com.example.petconnect.entity.Adotante;
 import com.example.petconnect.repository.AdotanteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdotanteService {
@@ -15,49 +17,57 @@ public class AdotanteService {
         this.repository = repository;
     }
 
-    public Adotante cadastrar(Adotante adotante) {
-
-        if (adotante.getNome() == null || adotante.getNome().isBlank()) {
-            throw new IllegalArgumentException("Nome é obrigatório");
-        }
-
-        if (adotante.getEmail() == null || adotante.getEmail().isBlank()) {
-            throw new IllegalArgumentException("Email é obrigatório");
-        }
-
-        repository.findByEmail(adotante.getEmail())
+    public AdotanteResponseDTO cadastrar(AdotanteRequestDTO dto) {
+        repository.findByEmail(dto.getEmail())
                 .ifPresent(a -> {
                     throw new IllegalArgumentException("Email já cadastrado");
                 });
 
-        return repository.save(adotante);
+        Adotante adotante = new Adotante();
+        adotante.setNome(dto.getNome());
+        adotante.setEmail(dto.getEmail());
+        adotante.setTelefone(dto.getTelefone());
+
+        return toResponseDTO(repository.save(adotante));
     }
 
-    public List<Adotante> listar() {
-        return repository.findAll();
+    public List<AdotanteResponseDTO> listar() {
+        return repository.findAll()
+                .stream()
+                .map(this::toResponseDTO)
+                .collect(Collectors.toList());
     }
 
-    public Adotante buscarPorId(Long id) {
-
-        return repository.findById(id)
+    public AdotanteResponseDTO buscarPorId(Long id) {
+        Adotante adotante = repository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Adotante não encontrado"));
+
+        return toResponseDTO(adotante);
     }
 
-    public Adotante atualizar(Long id, Adotante adotanteAtualizado) {
+    public AdotanteResponseDTO atualizar(Long id, AdotanteRequestDTO dto) {
+        Adotante adotante = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Adotante não encontrado"));
 
-        Adotante adotante = buscarPorId(id);
+        adotante.setNome(dto.getNome());
+        adotante.setEmail(dto.getEmail());
+        adotante.setTelefone(dto.getTelefone());
 
-        adotante.setNome(adotanteAtualizado.getNome());
-        adotante.setEmail(adotanteAtualizado.getEmail());
-        adotante.setTelefone(adotanteAtualizado.getTelefone());
-
-        return repository.save(adotante);
+        return toResponseDTO(repository.save(adotante));
     }
 
     public void deletar(Long id) {
-
-        Adotante adotante = buscarPorId(id);
+        Adotante adotante = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Adotante não encontrado"));
 
         repository.delete(adotante);
+    }
+
+    private AdotanteResponseDTO toResponseDTO(Adotante adotante) {
+        return new AdotanteResponseDTO(
+                adotante.getId(),
+                adotante.getNome(),
+                adotante.getEmail(),
+                adotante.getTelefone());
     }
 }
