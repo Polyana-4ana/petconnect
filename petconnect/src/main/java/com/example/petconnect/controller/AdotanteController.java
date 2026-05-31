@@ -1,7 +1,10 @@
 package com.example.petconnect.controller;
 
-import com.example.petconnect.entity.Adotante;
+import com.example.petconnect.dto.adotante.*;
 import com.example.petconnect.service.AdotanteService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,29 +20,31 @@ public class AdotanteController {
     }
 
     @PostMapping
-    public Adotante cadastrar(@RequestBody Adotante adotante) {
-        return service.cadastrar(adotante);
+    public ResponseEntity<AdotanteResponseDTO> cadastrar(@RequestBody @Valid AdotanteRequestDTO dto) {
+        AdotanteResponseDTO response = service.cadastrar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public List<Adotante> listar() {
-        return service.listar();
+    public ResponseEntity<List<AdotanteResponseDTO>> listar() {
+        return ResponseEntity.ok(service.listar());
     }
 
     @GetMapping("/{id}")
-    public Adotante buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id);
+    public ResponseEntity<AdotanteResponseDTO> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
-    public Adotante atualizar(
+    public ResponseEntity<AdotanteResponseDTO> atualizar(
             @PathVariable Long id,
-            @RequestBody Adotante adotante) {
-        return service.atualizar(id, adotante);
+            @RequestBody @Valid AdotanteRequestDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }

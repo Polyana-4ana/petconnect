@@ -1,8 +1,11 @@
 package com.example.petconnect.controller;
 
-import com.example.petconnect.entity.Pet;
+import com.example.petconnect.dto.pet.*;
 import com.example.petconnect.service.PetService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,12 +18,13 @@ public class PetController {
     private final PetService service;
 
     @PostMapping
-    public Pet salvar(@RequestBody Pet pet) {
-        return service.salvar(pet);
+    public ResponseEntity<PetResponseDTO> salvar(@RequestBody @Valid PetRequestDTO dto) {
+        PetResponseDTO response = service.salvar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public List<Pet> listar() {
-        return service.listar();
+    public ResponseEntity<List<PetResponseDTO>> listar() {
+        return ResponseEntity.ok(service.listar());
     }
 }

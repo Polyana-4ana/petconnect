@@ -1,30 +1,37 @@
 package com.example.petconnect.controller;
 
-import com.example.petconnect.entity.Adocao;
+import com.example.petconnect.dto.adocao.*;
 import com.example.petconnect.service.AdocaoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/adocoes")
 public class AdocaoController {
 
-    @Autowired
-    private AdocaoService adocaoService;
+    private final AdocaoService adocaoService;
+
+    public AdocaoController(AdocaoService adocaoService) {
+        this.adocaoService = adocaoService;
+    }
 
     @PostMapping
-    public Adocao criar(@RequestParam Long petId,
-                        @RequestParam Long adotanteId) {
-        return adocaoService.criarAdocao(petId, adotanteId);
+    public ResponseEntity<AdocaoResponseDTO> criar(@RequestBody @Valid AdocaoRequestDTO dto) {
+        AdocaoResponseDTO response = adocaoService.criarAdocao(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}/aprovar")
-    public Adocao aprovar(@PathVariable Long id) {
-        return adocaoService.aprovarAdocao(id);
+    public ResponseEntity<AdocaoResponseDTO> aprovar(@PathVariable Long id) {
+        AdocaoResponseDTO response = adocaoService.aprovarAdocao(id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}/cancelar")
-    public Adocao cancelar(@PathVariable Long id) {
-        return adocaoService.cancelarAdocao(id);
+    public ResponseEntity<AdocaoResponseDTO> cancelar(@PathVariable Long id) {
+        AdocaoResponseDTO response = adocaoService.cancelarAdocao(id);
+        return ResponseEntity.ok(response);
     }
 }
