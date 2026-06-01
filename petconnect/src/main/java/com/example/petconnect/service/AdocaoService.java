@@ -20,14 +20,14 @@ public class AdocaoService {
     @Autowired
     private AdotanteRepository adotanteRepository;
 
-    public Adocao criarAdocao(Long petId, Long adotanteId) {
+    public AdocaoResponseDTO criarAdocao(AdocaoRequestDTO dto) {
 
-        Pet pet = petRepository.findById(petId)
+        Pet pet = petRepository.findById(dto.getPetId())
                 .orElseThrow(() ->
                         new IllegalArgumentException(
                                 "Pet não encontrado"));
 
-        Adotante adotante = adotanteRepository.findById(adotanteId)
+        Adotante adotante = adotanteRepository.findById(dto.getAdotanteId())
                 .orElseThrow(() ->
                         new IllegalArgumentException(
                                 "Adotante não encontrado"));
@@ -51,10 +51,11 @@ public class AdocaoService {
                 StatusAdocao.PENDENTE
         );
 
-        return adocaoRepository.save(adocao);
+        Adocao adocaoSalva = adocaoRepository.save(adocao);
+        return convertToDTO(adocaoSalva);
     }
 
-    public Adocao aprovarAdocao(Long id) {
+    public AdocaoResponseDTO aprovarAdocao(Long id) {
 
         Adocao adocao = adocaoRepository.findById(id)
                 .orElseThrow(() ->
@@ -79,10 +80,11 @@ public class AdocaoService {
 
         petRepository.save(pet);
 
-        return adocaoRepository.save(adocao);
+        Adocao adocaoSalva = adocaoRepository.save(adocao);
+        return convertToDTO(adocaoSalva);
     }
 
-    public Adocao cancelarAdocao(Long id) {
+    public AdocaoResponseDTO cancelarAdocao(Long id) {
 
         Adocao adocao = adocaoRepository.findById(id)
                 .orElseThrow(() ->
@@ -107,7 +109,8 @@ public class AdocaoService {
 
         petRepository.save(pet);
 
-        return adocaoRepository.save(adocao);
+        Adocao adocaoSalva = adocaoRepository.save(adocao);
+        return convertToDTO(adocaoSalva);
     }
 
     public List<Adocao> listar() {
@@ -121,5 +124,16 @@ public class AdocaoService {
                 .orElseThrow(() ->
                         new IllegalArgumentException(
                                 "Adoção não encontrada"));
+    }
+
+    private AdocaoResponseDTO convertToDTO(Adocao adocao) {
+
+        AdocaoResponseDTO response = new AdocaoResponseDTO();
+        response.setId(adocao.getId());
+        response.setPetId(adocao.getPet().getId());
+        response.setAdotanteId(adocao.getAdotante().getId());
+        response.setStatus(adocao.getStatus());
+        response.setDataAdocao(adocao.getDataAdocao());
+        return response;
     }
 }
