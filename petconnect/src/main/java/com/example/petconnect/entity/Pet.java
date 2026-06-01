@@ -1,6 +1,5 @@
 package com.example.petconnect.entity;
 
-import com.example.petconnect.entity.StatusPet;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
