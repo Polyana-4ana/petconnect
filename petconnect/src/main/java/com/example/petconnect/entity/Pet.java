@@ -1,6 +1,8 @@
 package com.example.petconnect.entity;
 
+import com.example.petconnect.entity.StatusPet;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -17,22 +19,16 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Nome é obrigatório")
     private String nome;
-    private boolean adotado;
 
+    @Min(value = 0, message = "Idade inválida")
     private Integer idade;
 
-    @NotBlank
+    @NotBlank(message = "Espécie é obrigatória")
     private String especie;
 
-    private String status;
-
-    public boolean isAdotado() {
-        return adotado;
-    }
-
-    public void setAdotado(boolean adotado) {
-        this.adotado = adotado;
-    }
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private StatusPet status = StatusPet.DISPONIVEL;
 }
