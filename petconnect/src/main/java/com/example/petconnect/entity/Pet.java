@@ -1,5 +1,7 @@
 package com.example.petconnect.entity;
 
+import com.example.petconnect.entity.enums.StatusPet;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +30,13 @@ public class Pet {
     private String especie;
 
     @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private StatusPet status = StatusPet.DISPONIVEL;
+    private StatusPet status;
+
+    public boolean isAdotado() {
+        return status == StatusPet.ADOTADO;
+    }
+
+    public void setAdotado(boolean adotado) {
+        this.status = adotado ? StatusPet.ADOTADO : StatusPet.DISPONIVEL;
+    }
 }

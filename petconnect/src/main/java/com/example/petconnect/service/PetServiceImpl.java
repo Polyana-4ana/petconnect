@@ -2,6 +2,7 @@ package com.example.petconnect.service;
 
 import com.example.petconnect.dto.pet.*;
 import com.example.petconnect.entity.Pet;
+import com.example.petconnect.entity.enums.StatusPet;
 import com.example.petconnect.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class PetServiceImpl implements PetService {
         pet.setNome(dto.getNome());
         pet.setIdade(dto.getIdade());
         pet.setEspecie(dto.getEspecie());
-        pet.setStatus("DISPONIVEL");
+        pet.setStatus(StatusPet.DISPONIVEL);
 
         return toResponseDTO(repository.save(pet));
     }

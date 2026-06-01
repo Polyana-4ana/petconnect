@@ -1,4 +1,4 @@
-package com.example.petconnect.entity;
+package com.example.petconnect.entity.enums;
 
 public enum StatusAdocao {
     PENDENTE,
