@@ -1,5 +1,7 @@
 package com.example.petconnect.entity;
 
+import com.example.petconnect.entity.enums.StatusPet;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -26,7 +28,8 @@ public class Pet {
     @NotBlank
     private String especie;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusPet status;
 
     public boolean isAdotado() {
         return adotado;
