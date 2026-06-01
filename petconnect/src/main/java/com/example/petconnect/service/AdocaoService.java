@@ -2,6 +2,7 @@ package com.example.petconnect.service;
 
 import com.example.petconnect.dto.adocao.*;
 import com.example.petconnect.entity.*;
+import com.example.petconnect.entity.enums.StatusAdocao;
 import com.example.petconnect.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
