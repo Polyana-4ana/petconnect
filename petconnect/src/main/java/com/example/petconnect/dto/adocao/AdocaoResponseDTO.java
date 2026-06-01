@@ -1,7 +1,9 @@
 package com.example.petconnect.dto.adocao;
 
-import com.example.petconnect.entity.StatusAdocao;
+
 import java.time.LocalDateTime;
+
+import com.example.petconnect.entity.enums.StatusAdocao;
 
 public class AdocaoResponseDTO {
     private Long id;
