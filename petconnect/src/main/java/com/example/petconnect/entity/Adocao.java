@@ -3,6 +3,8 @@ package com.example.petconnect.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.example.petconnect.entity.enums.StatusAdocao;
+
 @Entity
 @Table(name = "adocoes")
 public class Adocao {
