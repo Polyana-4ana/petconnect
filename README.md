@@ -168,7 +168,7 @@ feature → develop → main
 - Polyana Santos
 - Arthur Rotthen
 - Nathalia Martins
-- Amanda Mattos
+- Amanda Matos
 - Arthur Auadi
 - 
 ---
