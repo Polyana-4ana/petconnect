@@ -1,5 +1,7 @@
 package com.example.petconnect.dto.pet;
 
+import com.example.petconnect.entity.enums.StatusPet;
+
 public class PetResponseDTO {
 
     private Long id;
@@ -7,13 +9,13 @@ public class PetResponseDTO {
     private Boolean adotado;
     private Integer idade;
     private String especie;
-    private String status;
+    private StatusPet status;
 
     public PetResponseDTO() {
     }
 
     public PetResponseDTO(Long id, String nome, Boolean adotado,
-            Integer idade, String especie, String status) {
+            Integer idade, String especie, StatusPet status) {
         this.id = id;
         this.nome = nome;
         this.adotado = adotado;
@@ -42,7 +44,7 @@ public class PetResponseDTO {
         return especie;
     }
 
-    public String getStatus() {
+    public StatusPet getStatus() {
         return status;
     }
 
@@ -66,7 +68,7 @@ public class PetResponseDTO {
         this.especie = especie;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusPet status) {
         this.status = status;
     }
 }
