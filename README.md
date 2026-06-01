@@ -15,6 +15,7 @@ O projeto tem como objetivo facilitar o processo de adoção de pets, permitindo
 - Hibernate
 - Maven
 
+
 ## Banco de Dados
 - PostgreSQL
 
@@ -23,6 +24,7 @@ O projeto tem como objetivo facilitar o processo de adoção de pets, permitindo
 - GitHub
 - Postman
 - Trello
+- Bruno
 
 ---
 
@@ -134,18 +136,18 @@ spring.datasource.password=senha
 mvn spring-boot:run
 ```
 
----
+--- 
+
+# ⚙ Como Testar requisições http
+1. executar a aplicação
+2. acessar ```http://localhost:8080/swagger-ui/index.html#``` - verificar se a documentação está rodando localmente
+3. acessar o Bruno
+4. clicar em importar e depois em url´s
+5. colar no campo ```http://localhost:8080/v3/api-docs```
 
 # 📡 Endpoints Principais
 
-## Pets
-
-| Método | Endpoint | Descrição |
-|---|---|---|
-| GET | /pets | Listar pets |
-| POST | /pets | Cadastrar pet |
-| PUT | /pets/{id} | Atualizar pet |
-| DELETE | /pets/{id} | Remover pet |
+Após executar o projeto acessar ```http://localhost:8080/swagger-ui/index.html#``` 
 
 ---
 
