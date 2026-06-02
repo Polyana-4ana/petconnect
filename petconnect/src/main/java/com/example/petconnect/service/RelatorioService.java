@@ -3,13 +3,14 @@ package com.example.petconnect.service;
 import com.example.petconnect.dto.AnaliseFunilDTO;
 import com.example.petconnect.dto.RelatorioGeralDTO;
 import com.example.petconnect.dto.RelatorioVendasDTO;
-import com.example.petconnect.entity.StatusPet;
+import com.example.petconnect.entity.enums.StatusPet; // <-- CORRIGIDO
 import com.example.petconnect.repository.AdotanteRepository;
 import com.example.petconnect.repository.PetRepository;
 import com.example.petconnect.repository.RelatorioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -48,18 +49,21 @@ public class RelatorioService {
 
         log.info("Analisando funil entre {} e {}", dataInicio, dataFim);
         List<AnaliseFunilDTO> resultados = relatorioRepository.agruparPorEstagioEntreData(dataInicio, dataFim);
-        
-        long total = resultados.stream().mapToLong(AnaliseFunilDTO::quantidade).sum();
+
+        long total = resultados.stream()
+                .mapToLong(a -> (long) a.quantidade()) // <-- CORRIGIDO: cast para long
+                .sum();
 
         if (total == 0) {
             log.warn("Total de registros é zero no funil");
         }
 
+        final long totalFinal = total;
         return resultados.stream()
                 .map(r -> new AnaliseFunilDTO(
                         r.estagio(),
                         r.quantidade(),
-                        total > 0 ? ((double) r.quantidade() / total) * 100.0 : 0.0
+                        totalFinal > 0 ? ((double) r.quantidade() / totalFinal) * 100.0 : 0.0
                 ))
                 .toList();
     }
