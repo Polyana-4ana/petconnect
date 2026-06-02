@@ -3,7 +3,7 @@ package com.example.petconnect.service;
 import com.example.petconnect.dto.AnaliseFunilDTO;
 import com.example.petconnect.dto.RelatorioGeralDTO;
 import com.example.petconnect.dto.RelatorioVendasDTO;
-import com.example.petconnect.entity.enums.StatusPet; // <-- CORRIGIDO
+import com.example.petconnect.entity.enums.StatusPet;
 import com.example.petconnect.repository.AdotanteRepository;
 import com.example.petconnect.repository.PetRepository;
 import com.example.petconnect.repository.RelatorioRepository;
@@ -19,7 +19,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class RelatorioService {
-
+    
     private final PetRepository petRepository;
     private final AdotanteRepository adotanteRepository;
     private final RelatorioRepository relatorioRepository;
@@ -49,9 +49,9 @@ public class RelatorioService {
 
         log.info("Analisando funil entre {} e {}", dataInicio, dataFim);
         List<AnaliseFunilDTO> resultados = relatorioRepository.agruparPorEstagioEntreData(dataInicio, dataFim);
-
+        
         long total = resultados.stream()
-                .mapToLong(a -> (long) a.quantidade()) // <-- CORRIGIDO: cast para long
+                .mapToLong(a -> (long) a.quantidade())
                 .sum();
 
         if (total == 0) {
