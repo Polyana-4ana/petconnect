@@ -122,7 +122,9 @@ public class AdocaoService {
                 AdocaoResponseDTO response = new AdocaoResponseDTO();
                 response.setId(adocao.getId());
                 response.setPetId(adocao.getPet().getId());
+                response.setNomePet(adocao.getPet().getNome());
                 response.setAdotanteId(adocao.getAdotante().getId());
+                response.setNomeAdotante(adocao.getAdotante().getNome());
                 response.setStatus(adocao.getStatus());
                 response.setDataAdocao(adocao.getDataAdocao());
                 return response;
