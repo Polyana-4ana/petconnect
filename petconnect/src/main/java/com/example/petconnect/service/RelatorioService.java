@@ -1,3 +1,12 @@
+package com.example.petconnect.service;
+
+import com.example.petconnect.dto.AnaliseFunilDTO;
+import com.example.petconnect.dto.RelatorioGeralDTO;
+import com.example.petconnect.dto.RelatorioVendasDTO;
+import com.example.petconnect.entity.StatusPet;
+import com.example.petconnect.repository.AdotanteRepository;
+import com.example.petconnect.repository.PetRepository;
+import com.example.petconnect.repository.RelatorioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
