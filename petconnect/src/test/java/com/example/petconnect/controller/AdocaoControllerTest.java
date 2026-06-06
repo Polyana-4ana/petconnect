@@ -1,117 +1,113 @@
 package com.example.petconnect.controller;
 
-import com.example.petconnect.dto.adotante.AdotanteRequestDTO;
-import com.example.petconnect.dto.adotante.AdotanteResponseDTO;
-import com.example.petconnect.service.AdotanteService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.petconnect.dto.adocao.AdocaoRequestDTO;
+import com.example.petconnect.dto.adocao.AdocaoResponseDTO;
+import com.example.petconnect.service.AdocaoService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+class AdocaoControllerTest {
 
-@WebMvcTest(AdotanteController.class)
-class AdotanteControllerTest {
+    private AdocaoController controller;
+    private AdocaoServiceFake serviceFake;
 
-        @Autowired
-        private MockMvc mockMvc;
+    @BeforeEach
+    void setUp() {
+        serviceFake = new AdocaoServiceFake();
+        controller = new AdocaoController(serviceFake);
+    }
 
-        @Autowired
-        private ObjectMapper objectMapper;
+    @Test
+    @DisplayName("Deve criar uma adoção com sucesso e retornar Status 201 (Created)")
+    void deveCriarAdocao() {
+        // Arrange
+        AdocaoRequestDTO request = new AdocaoRequestDTO();
+        request.setPetId(1L);
+        request.setAdotanteId(2L);
 
-        @MockitoBean
-        private AdotanteService service;
+        // Act
+        ResponseEntity<AdocaoResponseDTO> resultado = controller.criar(request);
 
-        @Test
-        void deveCadastrarAdotante() throws Exception {
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(HttpStatus.CREATED, resultado.getStatusCode());
+        assertNotNull(resultado.getBody());
+        assertEquals(1L, resultado.getBody().getId());
+        assertEquals(1L, resultado.getBody().getPetId());
+        assertEquals(2L, resultado.getBody().getAdotanteId());
 
-                AdotanteRequestDTO request = new AdotanteRequestDTO();
-                request.setNome("João");
+        assertNotNull(resultado.getBody().getStatus());
+    }
 
-                AdotanteResponseDTO response = new AdotanteResponseDTO();
-                response.setId(1L);
-                response.setNome("João");
+    @Test
+    @DisplayName("Deve aprovar uma adoção e retornar Status 200 (OK)")
+    void deveAprovarAdocao() {
+        // Act
+        ResponseEntity<AdocaoResponseDTO> resultado = controller.aprovar(1L);
 
-                Mockito.when(service.cadastrar(any()))
-                                .thenReturn(response);
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(HttpStatus.OK, resultado.getStatusCode());
+        assertNotNull(resultado.getBody());
+        assertEquals(1L, resultado.getBody().getId());
+    }
 
-                mockMvc.perform(post("/adotantes")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request)))
-                                .andExpect(status().isCreated())
-                                .andExpect(jsonPath("$.id").value(1))
-                                .andExpect(jsonPath("$.nome").value("João"));
+    @Test
+    @DisplayName("Deve cancelar uma adoção e retornar Status 200 (OK)")
+    void deveCancelarAdocao() {
+        // Act
+        ResponseEntity<AdocaoResponseDTO> resultado = controller.cancelar(1L);
+
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(HttpStatus.OK, resultado.getStatusCode());
+        assertNotNull(resultado.getBody());
+        assertEquals(1L, resultado.getBody().getId());
+    }
+
+    // CLASSE FAKE (Substitui os Repositories @Autowired e o Mockito)
+
+    private static class AdocaoServiceFake extends AdocaoService {
+
+        public AdocaoServiceFake() {
+            super();
         }
 
-        @Test
-        void deveListarAdotantes() throws Exception {
+        @Override
+        public AdocaoResponseDTO criarAdocao(AdocaoRequestDTO dto) {
+            AdocaoResponseDTO response = new AdocaoResponseDTO();
+            response.setId(1L);
+            response.setPetId(dto.getPetId());
+            response.setAdotanteId(dto.getAdotanteId());
 
-                AdotanteResponseDTO response = new AdotanteResponseDTO();
-                response.setId(1L);
-                response.setNome("João");
+            // CORREÇÃO: Definindo o status para não vir nulo!
+            // Se o setStatus da sua DTO pedir um Enum (StatusAdocao), mude para StatusAdocao.PENDENTE
+            response.setStatus(com.example.petconnect.entity.enums.StatusAdocao.PENDENTE);
 
-                Mockito.when(service.listar())
-                                .thenReturn(List.of(response));
-
-                mockMvc.perform(get("/adotantes"))
-                                .andExpect(status().isOk())
-                                .andExpect(jsonPath("$[0].id").value(1))
-                                .andExpect(jsonPath("$[0].nome").value("João"));
+            return response;
         }
 
-        @Test
-        void deveBuscarAdotantePorId() throws Exception {
-
-                AdotanteResponseDTO response = new AdotanteResponseDTO();
-                response.setId(1L);
-                response.setNome("João");
-
-                Mockito.when(service.buscarPorId(1L))
-                                .thenReturn(response);
-
-                mockMvc.perform(get("/adotantes/1"))
-                                .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.id").value(1))
-                                .andExpect(jsonPath("$.nome").value("João"));
+        @Override
+        public AdocaoResponseDTO aprovarAdocao(Long id) {
+            AdocaoResponseDTO response = new AdocaoResponseDTO();
+            response.setId(id);
+            response.setStatus(com.example.petconnect.entity.enums.StatusAdocao.APROVADA);
+            return response;
         }
 
-        @Test
-        void deveAtualizarAdotante() throws Exception {
-
-                AdotanteRequestDTO request = new AdotanteRequestDTO();
-                request.setNome("Maria");
-
-                AdotanteResponseDTO response = new AdotanteResponseDTO();
-                response.setId(1L);
-                response.setNome("Maria");
-
-                Mockito.when(service.atualizar(eq(1L), any()))
-                                .thenReturn(response);
-
-                mockMvc.perform(put("/adotantes/1")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request)))
-                                .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.nome").value("Maria"));
+        @Override
+        public AdocaoResponseDTO cancelarAdocao(Long id) {
+            AdocaoResponseDTO response = new AdocaoResponseDTO();
+            response.setId(id);
+            response.setStatus(com.example.petconnect.entity.enums.StatusAdocao.CANCELADA);
+            return response;
         }
+    }
 
-        @Test
-        void deveDeletarAdotante() throws Exception {
 
-                Mockito.doNothing()
-                                .when(service)
-                                .deletar(1L);
-
-                mockMvc.perform(delete("/adotantes/1"))
-                                .andExpect(status().isNoContent());
-        }
 }
