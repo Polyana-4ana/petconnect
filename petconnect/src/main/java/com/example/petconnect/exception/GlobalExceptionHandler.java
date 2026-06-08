@@ -2,6 +2,7 @@ package com.example.petconnect.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.LocalDateTime;
 
@@ -46,6 +47,23 @@ public class GlobalExceptionHandler {
                 404,
                 "NOT_FOUND",
                 ex.getMessage()
+        );
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse tratarValidacao(
+            MethodArgumentNotValidException ex) {
+
+        String mensagem = ex.getBindingResult()
+                .getFieldError()
+                .getDefaultMessage();
+
+        return new ErrorResponse(
+                LocalDateTime.now(),
+                400,
+                "VALIDATION_ERROR",
+                mensagem
         );
     }
 
