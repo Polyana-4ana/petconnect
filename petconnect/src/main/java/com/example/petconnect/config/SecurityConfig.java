@@ -18,44 +18,37 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .headers(headers ->
-                        headers.frameOptions(frame ->
-                                frame.disable()))
+                        headers.frameOptions(
+                                frameOptions ->
+                                        frameOptions.sameOrigin()))
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // Swagger
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**")
                         .permitAll()
 
-                        // H2 Console
                         .requestMatchers(
                                 "/h2-console/**")
                         .permitAll()
 
-                        // Consultas públicas
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/pets/**")
                         .permitAll()
 
-                        // Operações protegidas
-                        .requestMatchers(
-                                "/pets/**")
+                        .requestMatchers("/pets/**")
                         .authenticated()
 
-                        .requestMatchers(
-                                "/adotantes/**")
+                        .requestMatchers("/adotantes/**")
                         .authenticated()
 
-                        .requestMatchers(
-                                "/adocoes/**")
+                        .requestMatchers("/adocoes/**")
                         .authenticated()
 
-                        .requestMatchers(
-                                "/relatorios/**")
+                        .requestMatchers("/relatorios/**")
                         .authenticated()
 
                         .anyRequest()
