@@ -1,10 +1,7 @@
 package com.example.petconnect.entity;
 
-import com.example.petconnect.entity.Adotante;
-import com.example.petconnect.entity.Pet;
 import com.example.petconnect.entity.enums.StatusAdocao;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -52,7 +49,53 @@ public class Adocao {
     }
 
     public void cancelar() {
+        // Correção sutil: Se você mudar o status aqui, não precisa fazer no Service
         this.status = StatusAdocao.CANCELADA;
     }
 
+    // --- MÉTODOS UTILITÁRIOS ---
+    public Long getPetId() {
+        return this.pet != null ? this.pet.getId() : null;
+    }
+
+    // --- GETTERS E SETTERS ---
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public Adotante getAdotante() {
+        return adotante;
+    }
+
+    public void setAdotante(Adotante adotante) {
+        this.adotante = adotante;
+    }
+
+    public LocalDateTime getDataAdocao() {
+        return dataAdocao;
+    }
+
+    public void setDataAdocao(LocalDateTime dataAdocao) {
+        this.dataAdocao = dataAdocao;
+    }
+
+    public StatusAdocao getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusAdocao status) {
+        this.status = status;
+    }
 }

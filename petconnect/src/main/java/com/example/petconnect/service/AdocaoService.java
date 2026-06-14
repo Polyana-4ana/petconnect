@@ -68,14 +68,10 @@ public class AdocaoService {
                                         "Adoção já finalizada");
                 }
 
-                adocao.setStatus(
-                                StatusAdocao.APROVADA);
+                adocao.aprovar();
 
                 Pet pet = adocao.getPet();
-
-                pet.setStatus(
-                                StatusPet.ADOTADO);
-
+                pet.setStatus(StatusPet.ADOTADO);
                 petRepository.save(pet);
 
                 Adocao adocaoSalva = adocaoRepository.save(adocao);
@@ -93,14 +89,10 @@ public class AdocaoService {
                                         "Adoção já finalizada");
                 }
 
-                adocao.setStatus(
-                                StatusAdocao.CANCELADA);
+                adocao.cancelar();
 
                 Pet pet = adocao.getPet();
-
-                pet.setStatus(
-                                StatusPet.DISPONIVEL);
-
+                pet.setStatus(StatusPet.DISPONIVEL);
                 petRepository.save(pet);
 
                 Adocao adocaoSalva = adocaoRepository.save(adocao);
@@ -122,7 +114,7 @@ public class AdocaoService {
 
                 AdocaoResponseDTO response = new AdocaoResponseDTO();
                 response.setId(adocao.getId());
-                response.setPetId(adocao.getPet().getId());
+                response.setPetId(adocao.getPetId());
                 response.setNomePet(adocao.getPet().getNome());
                 response.setAdotanteId(adocao.getAdotante().getId());
                 response.setNomeAdotante(adocao.getAdotante().getNome());
