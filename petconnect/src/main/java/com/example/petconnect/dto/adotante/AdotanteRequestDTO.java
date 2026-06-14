@@ -21,6 +21,13 @@ public class AdotanteRequestDTO {
     public AdotanteRequestDTO() {
     }
 
+    // teste já existente
+    public AdotanteRequestDTO(String nome, String email, String telefone) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+    }
+
     public AdotanteRequestDTO(String nome, String email, String telefone, String cpf) {
         this.nome = nome;
         this.email = email;
