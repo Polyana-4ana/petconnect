@@ -1,18 +1,16 @@
 package com.example.petconnect.exception;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class ErrorResponse {
 
     private LocalDateTime timestamp;
-
     private Integer status;
-
-    private String mensagem;
-
+    private String error;
+    private String message;
 }

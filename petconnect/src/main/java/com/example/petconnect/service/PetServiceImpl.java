@@ -5,8 +5,11 @@ import com.example.petconnect.entity.Pet;
 import com.example.petconnect.entity.enums.StatusPet;
 import com.example.petconnect.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.jpa.domain.Specification;
+import com.example.petconnect.repository.specification.PetSpecification;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,6 +64,27 @@ public class PetServiceImpl implements PetService {
                 .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
         repository.delete(pet);
+    }
+
+    @Override
+    public Page<PetResponseDTO> buscarComFiltro(
+            String nome,
+            String especie,
+            Integer idadeMin,
+            Integer idadeMax,
+            StatusPet status,
+            Pageable pageable
+    ) {
+
+        Specification<Pet> spec = Specification
+                .where(PetSpecification.nomeContains(nome))
+                .and(PetSpecification.especieEquals(especie))
+                .and(PetSpecification.idadeGreaterThanOrEq(idadeMin))
+                .and(PetSpecification.idadeLessThanOrEq(idadeMax))
+                .and(PetSpecification.statusEquals(status));
+
+        return repository.findAll(spec, pageable)
+                .map(this::toResponseDTO);
     }
 
     private PetResponseDTO toResponseDTO(Pet pet) {
