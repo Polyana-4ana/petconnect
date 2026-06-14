@@ -15,13 +15,17 @@ public class AdotanteRequestDTO {
     @NotBlank(message = "O telefone é obrigatório")
     private String telefone;
 
+    @NotBlank(message = "O cpf é obrigatório")
+    private String cpf;
+
     public AdotanteRequestDTO() {
     }
 
-    public AdotanteRequestDTO(String nome, String email, String telefone) {
+    public AdotanteRequestDTO(String nome, String email, String telefone, String cpf) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
+        this.cpf = cpf;
     }
 
     public String getNome() {
@@ -36,6 +40,10 @@ public class AdotanteRequestDTO {
         return telefone;
     }
 
+    public String getCpf() {
+        return cpf;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -46,5 +54,9 @@ public class AdotanteRequestDTO {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }
