@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.data.jpa.domain.Specification;
-import com.example.petconnect.repository.specification.PetSpecification;
+import com.example.petconnect.repository.PetSpecification;
 import java.util.List;
 import java.util.stream.Collectors;
 
