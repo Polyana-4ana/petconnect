@@ -104,7 +104,7 @@ class AdocaoServiceTest {
     }
 
     @Test
-    @DisplayName("UT09 - Lançar exceção ao tentar criar adoção de um Pet que não está DISPONIVEL")
+    @DisplayName("Lançar exceção ao tentar criar adoção de um Pet que não está DISPONIVEL")
     void criarAdocao_PetIndisponivel_LancaException() {
 
         AdocaoRequestDTO requestDTO = new AdocaoRequestDTO(2L, 1L);
@@ -129,7 +129,7 @@ class AdocaoServiceTest {
     }
 
     @Test
-    @DisplayName("UT10 - Cancelar uma adoção existente com status PENDENTE")
+    @DisplayName("Cancelar uma adoção existente com status PENDENTE")
     void cancelarAdocao_ComSucesso() {
 
         Long adocaoId = 10L;
@@ -153,7 +153,7 @@ class AdocaoServiceTest {
     }
 
     @Test
-    @DisplayName("UT11 - Aprovar uma adoção existente com status PENDENTE")
+    @DisplayName("Aprovar uma adoção existente com status PENDENTE")
     void aprovarAdocao_ComSucesso() {
 
         Long adocaoId = 10L;

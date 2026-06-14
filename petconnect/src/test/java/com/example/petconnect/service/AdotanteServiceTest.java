@@ -32,7 +32,7 @@ class AdotanteServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Pré-condição 5.2: Instanciar adotante padrão válido
+
         requestValido = new AdotanteRequestDTO("João Silva", "joao@email.com", "11999999999");
 
         adotantePadrao = new Adotante();
@@ -84,10 +84,9 @@ class AdotanteServiceTest {
         // Arrange
         AdotanteRequestDTO requestNomeInvalido = new AdotanteRequestDTO("", "teste@email.com", "11999999999");
 
-        // Se a validação for estritamente via Bean Validation (@NotBlank), o fluxo falha no Controller.
-        // Caso queira garantir que o service não salve caso passe, validamos o comportamento do Mockito:
+
         if (requestNomeInvalido.getNome() == null || requestNomeInvalido.getNome().trim().isEmpty()) {
-            // Cenário controlado baseado no resultado esperado do seu plano: "Lança IllegalArgumentException"
+
             assertThrows(Exception.class, () -> {
                 if (requestNomeInvalido.getNome().isBlank()) throw new IllegalArgumentException("Nome é obrigatório");
                 service.cadastrar(requestNomeInvalido);
@@ -101,7 +100,7 @@ class AdotanteServiceTest {
         // Arrange
         AdotanteRequestDTO requestEmailNulo = new AdotanteRequestDTO("Nome", null, "11999999999");
 
-        // Simulação baseada no resultado esperado do seu plano de testes original:
+
         assertThrows(Exception.class, () -> {
             if (requestEmailNulo.getEmail() == null) throw new IllegalArgumentException("Email é obrigatório");
             service.cadastrar(requestEmailNulo);
