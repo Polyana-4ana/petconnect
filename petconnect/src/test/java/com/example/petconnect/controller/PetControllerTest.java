@@ -3,9 +3,13 @@ package com.example.petconnect.controller;
 import com.example.petconnect.dto.pet.PetRequestDTO;
 import com.example.petconnect.dto.pet.PetResponseDTO;
 import com.example.petconnect.service.PetService;
+import com.example.petconnect.entity.enums.StatusPet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,23 +25,22 @@ class PetControllerTest {
     @BeforeEach
     void setUp() {
         serviceFake = new PetServiceFake();
-
         controller = new PetController(serviceFake);
     }
 
     @Test
     @DisplayName("Deve salvar um pet com sucesso e retornar Status 201 (Created)")
     void deveSalvarPet() {
-        // Arrange
+
         PetRequestDTO request = new PetRequestDTO();
         request.setNome("Rex");
         request.setIdade(3);
         request.setEspecie("Cachorro");
 
-        // Act
+
         ResponseEntity<PetResponseDTO> resultado = controller.salvar(request);
 
-        // Assert
+
         assertNotNull(resultado);
         assertEquals(HttpStatus.CREATED, resultado.getStatusCode());
         assertNotNull(resultado.getBody());
@@ -50,27 +53,37 @@ class PetControllerTest {
     }
 
     @Test
-    @DisplayName("Deve listar todos os pets e retornar Status 200 (OK)")
+    @DisplayName("Deve listar todos os pets e retornar Status 200 (OK) com Paginação")
     void deveListarPets() {
-        // Act
-        ResponseEntity<List<PetResponseDTO>> resultado = controller.listar();
 
-        // Assert
+        ResponseEntity<Page<PetResponseDTO>> resultado = controller.listar(
+                null, // nome
+                null, // especie
+                null, // idadeMin
+                null, // idadeMax
+                null, // status
+                0,    // page
+                10    // size
+        );
+
+
         assertNotNull(resultado);
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
         assertNotNull(resultado.getBody());
-        assertEquals(1, resultado.getBody().size());
-        assertEquals(1L, resultado.getBody().get(0).getId());
-        assertEquals("Rex", resultado.getBody().get(0).getNome());
+        assertEquals(1, resultado.getBody().getTotalElements());
+
+        PetResponseDTO pet = resultado.getBody().getContent().get(0);
+        assertEquals(1L, pet.getId());
+        assertEquals("Rex", pet.getNome());
     }
 
     @Test
     @DisplayName("Deve buscar um pet por ID e retornar Status 200 (OK)")
     void deveBuscarPetPorId() {
-        // Act
+
         ResponseEntity<PetResponseDTO> resultado = controller.buscarPorId(1L);
 
-        // Assert
+
         assertNotNull(resultado);
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
         assertNotNull(resultado.getBody());
@@ -81,16 +94,16 @@ class PetControllerTest {
     @Test
     @DisplayName("Deve atualizar dados do pet e retornar Status 200 (OK)")
     void deveAtualizarPet() {
-        // Arrange
+
         PetRequestDTO request = new PetRequestDTO();
         request.setNome("Thor");
         request.setIdade(4);
         request.setEspecie("Cachorro");
 
-        // Act
+
         ResponseEntity<PetResponseDTO> resultado = controller.atualizar(1L, request);
 
-        // Assert
+
         assertNotNull(resultado);
         assertEquals(HttpStatus.OK, resultado.getStatusCode());
         assertNotNull(resultado.getBody());
@@ -102,28 +115,26 @@ class PetControllerTest {
     @Test
     @DisplayName("Deve deletar um pet com sucesso e retornar Status 204 (No Content)")
     void deveDeletarPet() {
-        // Act
+
         ResponseEntity<Void> resultado = controller.deletar(1L);
 
-        // Assert
+
         assertNotNull(resultado);
         assertEquals(HttpStatus.NO_CONTENT, resultado.getStatusCode());
         assertNull(resultado.getBody());
     }
 
-
     private static class PetServiceFake implements PetService {
 
         @Override
         public PetResponseDTO salvar(PetRequestDTO dto) {
-
             return new PetResponseDTO(
                     1L,
                     dto.getNome(),
                     false,
                     dto.getIdade(),
                     dto.getEspecie(),
-                    com.example.petconnect.entity.enums.StatusPet.DISPONIVEL
+                    StatusPet.DISPONIVEL
             );
         }
 
@@ -135,9 +146,22 @@ class PetControllerTest {
                     false,
                     3,
                     "Cachorro",
-                    com.example.petconnect.entity.enums.StatusPet.DISPONIVEL
+                    StatusPet.DISPONIVEL
             );
             return List.of(pet);
+        }
+
+        @Override
+        public Page<PetResponseDTO> buscarComFiltro(String nome, String especie, Integer idadeMin, Integer idadeMax, StatusPet status, Pageable pageable) {
+            PetResponseDTO pet = new PetResponseDTO(
+                    1L,
+                    "Rex",
+                    false,
+                    3,
+                    "Cachorro",
+                    StatusPet.DISPONIVEL
+            );
+            return new PageImpl<>(List.of(pet), pageable, 1);
         }
 
         @Override
@@ -148,7 +172,7 @@ class PetControllerTest {
                     false,
                     3,
                     "Cachorro",
-                    com.example.petconnect.entity.enums.StatusPet.DISPONIVEL
+                    StatusPet.DISPONIVEL
             );
         }
 
@@ -160,13 +184,13 @@ class PetControllerTest {
                     false,
                     dto.getIdade(),
                     dto.getEspecie(),
-                    com.example.petconnect.entity.enums.StatusPet.DISPONIVEL
+                    StatusPet.DISPONIVEL
             );
         }
 
         @Override
         public void deletar(Long id) {
-            // Método void: Simula execução de sucesso não fazendo nada
+            // Método void
         }
     }
 }
