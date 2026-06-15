@@ -27,6 +27,7 @@ public class AdotanteService {
         adotante.setNome(dto.getNome());
         adotante.setEmail(dto.getEmail());
         adotante.setTelefone(dto.getTelefone());
+        adotante.setCpf(dto.getCpf());
 
         return toResponseDTO(repository.save(adotante));
     }
@@ -52,6 +53,7 @@ public class AdotanteService {
         adotante.setNome(dto.getNome());
         adotante.setEmail(dto.getEmail());
         adotante.setTelefone(dto.getTelefone());
+        adotante.setCpf(dto.getCpf());
 
         return toResponseDTO(repository.save(adotante));
     }
