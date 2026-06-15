@@ -52,6 +52,7 @@ class PetControllerTest {
         assertNotNull(resultado.getBody().getStatus());
     }
 
+
     @Test
     @DisplayName("Deve listar todos os pets e retornar Status 200 (OK) com Paginação")
     void deveListarPets() {
