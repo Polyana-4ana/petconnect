@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdocaoService {
@@ -29,11 +30,11 @@ public class AdocaoService {
 
                 Pet pet = petRepository.findById(dto.getPetId())
                                 .orElseThrow(() -> new PetNaoEncontradoException(
-                                        dto.getPetId()));
+                                                dto.getPetId()));
 
                 Adotante adotante = adotanteRepository.findById(dto.getAdotanteId())
                                 .orElseThrow(() -> new AdotanteNaoEncontradoException(
-                                        dto.getAdotanteId()));
+                                                dto.getAdotanteId()));
 
                 if (pet.getStatus() != StatusPet.DISPONIVEL) {
 
@@ -99,15 +100,21 @@ public class AdocaoService {
                 return convertToDTO(adocaoSalva);
         }
 
-        public List<Adocao> listar() {
+        public List<AdocaoResponseDTO> listar() {
 
-                return adocaoRepository.findAll();
+                return adocaoRepository.findAll()
+                                .stream()
+                                .map(this::convertToDTO)
+                                .collect(Collectors.toList());
         }
 
-        public Adocao buscarPorId(Long id) {
+        // ALTERADO: agora retorna AdocaoResponseDTO em vez de Adocao (consistência)
+        public AdocaoResponseDTO buscarPorId(Long id) {
 
-                return adocaoRepository.findById(id)
-                        .orElseThrow(() -> new AdocaoNaoEncontradaException(id));
+                Adocao adocao = adocaoRepository.findById(id)
+                                .orElseThrow(() -> new AdocaoNaoEncontradaException(id));
+
+                return convertToDTO(adocao);
         }
 
         private AdocaoResponseDTO convertToDTO(Adocao adocao) {
