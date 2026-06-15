@@ -138,6 +138,23 @@ mvn spring-boot:run
 
 --- 
 
+## 5. Integração Frontend + Backend
+
+O projeto PetConnect é dividido em dois repositórios separados:
+
+🖥️ Frontend (React) → (https://github.com/amandamats/front-petconnect)
+
+⚙️ Backend (Spring Boot) → este repositório
+
+Essa separação exige configuração para comunicação entre as aplicações via API REST.
+O frontend consome a API do backend através de requisições HTTP.
+
+Após rodar back-end:
+```bash
+npm install
+npm start
+```
+
 # ⚙ Como Testar requisições http
 1. executar a aplicação
 2. acessar ```http://localhost:8080/swagger-ui/index.html#``` - verificar se a documentação está rodando localmente
