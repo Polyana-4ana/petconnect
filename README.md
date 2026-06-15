@@ -141,7 +141,7 @@ mvn spring-boot:run
 # ⚙ Como Testar requisições http
 1. executar a aplicação
 2. acessar ```http://localhost:8080/swagger-ui/index.html#``` - verificar se a documentação está rodando localmente
-3. acessar o Bruno
+3. acessar o Bruno ou Postman
 4. clicar em importar e depois em url´s
 5. colar no campo ```http://localhost:8080/v3/api-docs```
 
