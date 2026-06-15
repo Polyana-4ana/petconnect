@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/adocoes")
 public class AdocaoController {
@@ -21,6 +23,11 @@ public class AdocaoController {
     public ResponseEntity<AdocaoResponseDTO> criar(@RequestBody @Valid AdocaoRequestDTO dto) {
         AdocaoResponseDTO response = adocaoService.criarAdocao(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AdocaoResponseDTO>> listar() {
+        return ResponseEntity.ok(adocaoService.listar());
     }
 
     @PutMapping("/{id}/aprovar")
