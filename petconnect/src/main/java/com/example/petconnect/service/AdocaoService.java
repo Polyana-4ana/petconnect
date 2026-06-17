@@ -4,11 +4,15 @@ import com.example.petconnect.dto.adocao.*;
 import com.example.petconnect.entity.*;
 import com.example.petconnect.entity.enums.StatusAdocao;
 import com.example.petconnect.entity.enums.StatusPet;
+import com.example.petconnect.exception.AdocaoNaoEncontradaException;
+import com.example.petconnect.exception.AdotanteNaoEncontradoException;
+import com.example.petconnect.exception.PetNaoEncontradoException;
 import com.example.petconnect.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdocaoService {
@@ -25,12 +29,12 @@ public class AdocaoService {
         public AdocaoResponseDTO criarAdocao(AdocaoRequestDTO dto) {
 
                 Pet pet = petRepository.findById(dto.getPetId())
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                                "Pet não encontrado"));
+                                .orElseThrow(() -> new PetNaoEncontradoException(
+                                                dto.getPetId()));
 
                 Adotante adotante = adotanteRepository.findById(dto.getAdotanteId())
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                                "Adotante não encontrado"));
+                                .orElseThrow(() -> new AdotanteNaoEncontradoException(
+                                                dto.getAdotanteId()));
 
                 if (pet.getStatus() != StatusPet.DISPONIVEL) {
 
@@ -56,8 +60,8 @@ public class AdocaoService {
         public AdocaoResponseDTO aprovarAdocao(Long id) {
 
                 Adocao adocao = adocaoRepository.findById(id)
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                                "Adoção não encontrada"));
+                                .orElseThrow(() -> new AdocaoNaoEncontradaException(
+                                                id));
 
                 if (adocao.getStatus() != StatusAdocao.PENDENTE) {
 
@@ -65,14 +69,10 @@ public class AdocaoService {
                                         "Adoção já finalizada");
                 }
 
-                adocao.setStatus(
-                                StatusAdocao.APROVADA);
+                adocao.aprovar();
 
                 Pet pet = adocao.getPet();
-
-                pet.setStatus(
-                                StatusPet.ADOTADO);
-
+                pet.setStatus(StatusPet.ADOTADO);
                 petRepository.save(pet);
 
                 Adocao adocaoSalva = adocaoRepository.save(adocao);
@@ -82,8 +82,7 @@ public class AdocaoService {
         public AdocaoResponseDTO cancelarAdocao(Long id) {
 
                 Adocao adocao = adocaoRepository.findById(id)
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                                "Adoção não encontrada"));
+                                .orElseThrow(() -> new AdocaoNaoEncontradaException(id));
 
                 if (adocao.getStatus() != StatusAdocao.PENDENTE) {
 
@@ -91,37 +90,38 @@ public class AdocaoService {
                                         "Adoção já finalizada");
                 }
 
-                adocao.setStatus(
-                                StatusAdocao.CANCELADA);
+                adocao.cancelar();
 
                 Pet pet = adocao.getPet();
-
-                pet.setStatus(
-                                StatusPet.DISPONIVEL);
-
+                pet.setStatus(StatusPet.DISPONIVEL);
                 petRepository.save(pet);
 
                 Adocao adocaoSalva = adocaoRepository.save(adocao);
                 return convertToDTO(adocaoSalva);
         }
 
-        public List<Adocao> listar() {
+        public List<AdocaoResponseDTO> listar() {
 
-                return adocaoRepository.findAll();
+                return adocaoRepository.findAll()
+                                .stream()
+                                .map(this::convertToDTO)
+                                .collect(Collectors.toList());
         }
 
-        public Adocao buscarPorId(Long id) {
+        // ALTERADO: agora retorna AdocaoResponseDTO em vez de Adocao (consistência)
+        public AdocaoResponseDTO buscarPorId(Long id) {
 
-                return adocaoRepository.findById(id)
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                                "Adoção não encontrada"));
+                Adocao adocao = adocaoRepository.findById(id)
+                                .orElseThrow(() -> new AdocaoNaoEncontradaException(id));
+
+                return convertToDTO(adocao);
         }
 
         private AdocaoResponseDTO convertToDTO(Adocao adocao) {
 
                 AdocaoResponseDTO response = new AdocaoResponseDTO();
                 response.setId(adocao.getId());
-                response.setPetId(adocao.getPet().getId());
+                response.setPetId(adocao.getPetId());
                 response.setNomePet(adocao.getPet().getNome());
                 response.setAdotanteId(adocao.getAdotante().getId());
                 response.setNomeAdotante(adocao.getAdotante().getNome());
